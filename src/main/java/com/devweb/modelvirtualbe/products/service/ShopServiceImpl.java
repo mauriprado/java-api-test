@@ -7,6 +7,7 @@ import com.devweb.modelvirtualbe.shared.exception.ResourceNotFoundException;
 import com.devweb.modelvirtualbe.shared.exception.ResourceValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@Service
 public class ShopServiceImpl implements ShopService {
     private static final String ENTITY = "Shop";
     private final ShopRepository shopRepository;

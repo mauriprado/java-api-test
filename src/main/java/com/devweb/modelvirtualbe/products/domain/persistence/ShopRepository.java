@@ -15,4 +15,6 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     Optional<Shop> findById(Long id);
     Shop findByLogoUrl(String logoUrl);
     Shop findByName(String name);
+    Shop findByNameAndIdNot(String name, Long id);
+    Shop findByLogoUrlAndIdNot(String logoUrl, Long id);
 }

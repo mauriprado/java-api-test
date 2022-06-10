@@ -56,38 +56,31 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public Shop update(Long id, Shop shop) {
-        Optional<Shop> selectedShop = shopRepository.findById(id);
-        if (selectedShop.isEmpty())
-            throw new ResourceNotFoundException(ENTITY, id);
-        shopRepository.deleteById(id);
-
         Set<ConstraintViolation<Shop>> violations = validator.validate(shop);
-        if(!violations.isEmpty()) {
-            shopRepository.save(selectedShop.get());
+        if(!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
-        }
 
-        Shop shopWithLogoUrl = shopRepository.findByLogoUrl(shop.getLogoUrl());
-        if (shopWithLogoUrl != null) {
-            shopRepository.save(selectedShop.get());
+        Shop shopWithLogoUrl = shopRepository.findByLogoUrlAndIdNot(shop.getLogoUrl(), id);
+        if (shopWithLogoUrl != null)
             throw new ResourceValidationException(ENTITY, "A shop with the same logo already exists. Change logo's url and try again.");
-        }
 
-        Shop shopWithName = shopRepository.findByName(shop.getName());
-        if (shopWithName != null) {
-            shopRepository.save(selectedShop.get());
+
+        Shop shopWithName = shopRepository.findByNameAndIdNot(shop.getName(), id);
+        if (shopWithName != null)
             throw new ResourceValidationException(ENTITY, "A shop with the same name already exists. Change shop name and try again.");
-        }
-        return shopRepository.save(shop);
+
+        return shopRepository.findById(id).map(s ->
+                shopRepository.save(
+                        s.withName(shop.getName())
+                                .withLogoUrl(shop.getLogoUrl())
+                )).orElseThrow(() -> new ResourceNotFoundException(ENTITY, id));
     }
 
     @Override
     public ResponseEntity<?> delete(Long id) {
-        Optional<Shop> selectedShop = shopRepository.findById(id);
-        if (selectedShop.isEmpty())
-            throw new ResourceNotFoundException(ENTITY, id);
-
-        shopRepository.deleteById(id);
-        return new ResponseEntity<Shop>(HttpStatus.OK);
+        return shopRepository.findById(id).map(shop -> {
+            shopRepository.delete(shop);
+            return ResponseEntity.ok().build();
+        }).orElseThrow(()-> new ResourceNotFoundException(ENTITY, id));
     }
 }

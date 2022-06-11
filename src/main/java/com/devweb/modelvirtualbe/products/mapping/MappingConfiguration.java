@@ -9,4 +9,9 @@ public class MappingConfiguration {
     public ShopMapper shopMapper() {
         return new ShopMapper();
     }
+
+    @Bean
+    public ProductMapper studentMapper(){
+        return new ProductMapper();
+    }
 }

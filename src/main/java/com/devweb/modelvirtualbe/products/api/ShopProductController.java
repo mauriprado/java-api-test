@@ -13,6 +13,7 @@ import java.util.List;
 
 @Tag(name="ShopProduct")
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/shops/{shopId}/product")
 public class ShopProductController {
     private final ProductService productService;

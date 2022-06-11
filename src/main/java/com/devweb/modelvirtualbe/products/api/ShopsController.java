@@ -15,6 +15,7 @@ import java.util.List;
 
 @Tag(name = "Shops")
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/shops")
 public class ShopsController {
     @Autowired

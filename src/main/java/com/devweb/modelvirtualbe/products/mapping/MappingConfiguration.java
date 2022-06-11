@@ -14,4 +14,9 @@ public class MappingConfiguration {
     public ProductMapper studentMapper(){
         return new ProductMapper();
     }
+    @Bean
+    public FavoriteMapper favoriteMapper(){
+        return new FavoriteMapper();
+    }
+
 }

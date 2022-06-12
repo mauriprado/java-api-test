@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @Table(name = "shops")
 public class Shop {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
